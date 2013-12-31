@@ -10,9 +10,9 @@ read os_name
 printf "\e[01;33m$os_name Build Version: \e[00m"
 read os_build_version
 printf "\e[01;33mProcessor Type: (i386, amd64): \e[00m"
-read -p -i "amd64" -e os_processor_type
+read -i "amd64" -e os_processor_type
 printf "\e[01;33mUbuntu Base OS (oneiric, precise): \e[00m"
-read -p -i "precise" -e os_ubuntu_version
+read -i "precise" -e os_ubuntu_version
 
 # Create Working Directory
 printf "\e[01;32m\nBuilding Filesystem Directories...\n\e[00m"
