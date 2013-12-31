@@ -51,8 +51,7 @@ apt-get upgrade --yes
 
 # Installing Programs
 printf "e[01;32mInstalling Chromium Browser\ne[00m"
-apt-get install --yes chromium-browser preload bleachbit
-
+apt-get install --yes chromium-browser preload bleachbit ufw apparmor apparmor-profiles psad
 
 rm /var/lib/dbus/machine-id
 
