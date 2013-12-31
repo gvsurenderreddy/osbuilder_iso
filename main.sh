@@ -68,4 +68,6 @@ cd extract-cd
 sudo rm md5sum.txt
 find -type f -print0 | sudo xargs -0 md5sum | grep -v isolinux/boot.cat | sudo tee md5sum.txt
 
-sudo mkisofs -D -r -V "$os_name" -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o ../$os_name-$os_version-$os_processor_type.iso .
+sudo mkisofs -D -r -V "$os_name" -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o ../$os_name-$os_build_version-$os_processor_type.iso .
+
+cp ../$os_name-$os_build_version-$os_processor_type.iso /var/www/
