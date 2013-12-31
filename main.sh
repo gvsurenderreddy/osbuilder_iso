@@ -39,7 +39,7 @@ sudo chmod 777 filesystem/tmp/chrootsetup
 
 sudo mount --bind /dev/ filesystem/dev
 
-sudo chroot filesystem "/tmp/chrootsetup $os_ubuntu_version"
+sudo chroot filesystem "/tmp/chrootsetup"
 
 chmod +w extract-cd/casper/filesystem.manifest
 sudo chroot filesystem dpkg-query -W --showformat='${Package} ${Version}\n' > extract-cd/casper/filesystem.manifest
