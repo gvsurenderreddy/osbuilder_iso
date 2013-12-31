@@ -2,7 +2,7 @@
 
 # Make Sure All Local Programs Are Installed
 printf "\e[01;32m\nChecking and Installing Dependencies...\n\n\e[00m"
-sudo apt-get install --yes debootstrap syslinux squashfs-tools genisoimage lzma
+sudo apt-get install --yes debootstrap syslinux squashfs-tools genisoimage lzma >/dev/null
 
 # Questions About OS
 printf "\e[01;33mOperating System Name: \e[00m"
@@ -10,9 +10,9 @@ read os_name
 printf "\e[01;33m$os_name Build Version: \e[00m"
 read os_build_version
 printf "\e[01;33mProcessor Type: (i386, amd64): \e[00m"
-read os_processor_type
+read -p -i "amd64" -e os_processor_type
 printf "\e[01;33mUbuntu Base OS (oneiric, precise): \e[00m"
-read os_ubuntu_version
+read -p -i "precise" -e os_ubuntu_version
 
 # Create Working Directory
 printf "\e[01;32m\nBuilding Filesystem Directories...\n\e[00m"
@@ -20,7 +20,7 @@ mkdir -p ~/os/$os_name/$os_processor_type/$os_build_version/
 
 ISO=$1
 
-mv $ISO ~/os/$os_name/$os_processor_type/$os_build_version/
+cp $ISO ~/os/$os_name/$os_processor_type/$os_build_version/
 cd ~/os/$os_name/$os_processor_type/$os_build_version/
 
 mkdir mnt
@@ -39,7 +39,7 @@ sudo chmod 777 filesystem/tmp/chrootsetup
 
 sudo mount --bind /dev/ filesystem/dev
 
-sudo chroot filesystem "/tmp/chrootsetup"
+sudo chroot filesystem "/tmp/chrootsetup $os_ubuntu_version"
 
 chmod +w extract-cd/casper/filesystem.manifest
 sudo chroot filesystem dpkg-query -W --showformat='${Package} ${Version}\n' > extract-cd/casper/filesystem.manifest
