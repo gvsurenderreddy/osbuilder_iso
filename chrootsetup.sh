@@ -16,15 +16,10 @@ apt-get update
 printf "\e[01;32mUpgrading Current Packages...\n\e[00m"
 apt-get upgrade --yes
 
-# Install cinnamon Desktop Manager and Lightdm Login Manager
-printf "\e[01;32mInstalling and Setting up Gnome Desktop and LightDM...\n\e[00m"
-
 # Installing Programs
 printf "e[01;32mInstalling Chromium Browser\ne[00m"
 apt-get install --yes chromium-browser preload bleachbit
-apt-get purge --yes firefox ubuntuone-*
 
-printf "\e[00;31mThis has concluded Installing the Live System Please Continue Customization then run /tmp/chrootcleanup to end the chroot process. \e[00m"
 
 rm /var/lib/dbus/machine-id
 
