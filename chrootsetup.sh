@@ -8,6 +8,39 @@ mount none -t devpts /dev/pts
 export HOME=/root
 export LC_ALL=C
 
+rm /etc/apt/sources.list
+
+cat > /etc/apt/sources.list << EOF
+deb http://us.archive.ubuntu.com/ubuntu/ $1 main restricted
+deb-src http://us.archive.ubuntu.com/ubuntu/ $1 main restricted
+
+deb http://us.archive.ubuntu.com/ubuntu/ $1-updates main restricted
+deb-src http://us.archive.ubuntu.com/ubuntu/ $1-updates main restricted
+
+deb http://us.archive.ubuntu.com/ubuntu/ $1 universe
+deb-src http://us.archive.ubuntu.com/ubuntu/ $1 universe
+deb http://us.archive.ubuntu.com/ubuntu/ $1-updates universe
+deb-src http://us.archive.ubuntu.com/ubuntu/ $1-updates universe
+
+
+deb http://us.archive.ubuntu.com/ubuntu/ $1 multiverse
+deb-src http://us.archive.ubuntu.com/ubuntu/ $1 multiverse
+deb http://us.archive.ubuntu.com/ubuntu/ $1-updates multiverse
+deb-src http://us.archive.ubuntu.com/ubuntu/ $1-updates multiverse
+
+
+deb http://security.ubuntu.com/ubuntu $1-security main restricted
+deb-src http://security.ubuntu.com/ubuntu $1-security main restricted
+deb http://security.ubuntu.com/ubuntu $1-security universe
+deb-src http://security.ubuntu.com/ubuntu $1-security universe
+deb http://security.ubuntu.com/ubuntu $1-security multiverse
+deb-src http://security.ubuntu.com/ubuntu $1-security multiverse
+
+deb http://extras.ubuntu.com/ubuntu $1 main
+deb-src http://extras.ubuntu.com/ubuntu $1 main
+EOF
+
+
 # Update Sources List
 printf "\e[01;32mUpdating Current Programs...\n\e[00m"
 apt-get update
