@@ -48,6 +48,7 @@ apt-get update
 # Upgrade Programs
 printf "\e[01;32mUpgrading Current Packages...\n\e[00m"
 apt-get upgrade --yes
+apt-get dist-upgrade --yes
 
 # Installing Programs
 printf "e[01;32mInstalling Chromium Browser\ne[00m"
