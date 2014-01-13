@@ -52,7 +52,7 @@ apt-get dist-upgrade --yes
 
 # Installing Programs
 printf "e[01;32mInstalling Chromium Browser\ne[00m"
-apt-get install --yes chromium-browser preload bleachbit ufw apparmor apparmor-profiles psad wine
+apt-get install --yes chromium-browser preload bleachbit ufw selinux psad wine
 apt-get purge --yes ubuntuone-* firefox gnome-online-accounts gnome-user-guide ubuntu-docs
 
 rm /var/lib/dbus/machine-id
