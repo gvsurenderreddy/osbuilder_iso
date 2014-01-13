@@ -4,6 +4,8 @@
 printf "\e[01;32m\nChecking and Installing Dependencies...\n\n\e[00m"
 sudo apt-get install --yes debootstrap syslinux squashfs-tools genisoimage lzma >/dev/null
 
+reset
+
 # Questions About OS
 printf "\e[01;33mOperating System Name: \e[00m"
 read os_name
@@ -23,15 +25,19 @@ ISO=$1
 cp $ISO ~/os/$os_name/$os_processor_type/$os_build_version/
 cd ~/os/$os_name/$os_processor_type/$os_build_version/
 
+printf "\e[01;32m\nMounting ISO...\n\e[00m"
 mkdir mnt
 sudo mount -o loop *.iso mnt
 
+printf "\e[01;32m\nExtracting ISO...\n\e[00m"
 mkdir extract-cd
 sudo rsync --exclude=/casper/filesystem.squashfs -a mnt/ extract-cd
 
+printf "\e[01;32m\nExtracting Filesystem...\n\e[00m"
 sudo unsquashfs mnt/casper/filesystem.squashfs
 sudo mv squashfs-root filesystem
 
+printf "\e[01;32m\nCopying Nessessory Files to Filesystem...\n\e[00m"
 sudo cp /etc/resolv.conf filesystem/etc/
 sudo cp /etc/hosts filesystem/etc/
 sudo cp ~/osbuilder/chrootsetup.sh filesystem/tmp/chrootsetup
@@ -40,6 +46,8 @@ sudo chmod 777 filesystem/tmp/chrootsetup
 sudo mount --bind /dev/ filesystem/dev
 
 sudo chroot filesystem "/tmp/chrootsetup"
+
+sudo umount filesystem/dev
 
 chmod +w extract-cd/casper/filesystem.manifest
 sudo chroot filesystem dpkg-query -W --showformat='${Package} ${Version}\n' > extract-cd/casper/filesystem.manifest
