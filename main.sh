@@ -40,24 +40,30 @@ sudo mv squashfs-root filesystem
 printf "\e[01;32m\nCopying Nessessory Files to Filesystem...\n\e[00m"
 sudo cp /etc/resolv.conf filesystem/etc/
 sudo cp /etc/hosts filesystem/etc/
-sudo cp ~/osbuilder/chrootsetup.sh filesystem/tmp/chrootsetup
+sudo cp ~/osbuilder_iso/chrootsetup.sh filesystem/tmp/chrootsetup
 sudo chmod 777 filesystem/tmp/chrootsetup
 
+printf "\e[01;32m\nMounting Filesystem...\n\e[00m"
 sudo mount --bind /dev/ filesystem/dev
 
+printf "\e[01;32m\nStarting chroot script...\n\e[00m"
 sudo chroot filesystem "/tmp/chrootsetup"
 
+printf "\e[01;32m\nUmountiong Filesystem...\n\e[00m"
 sudo umount filesystem/dev
 
+printf "\e[01;32m\nCreating Manifest...\n\e[00m"
 chmod +w extract-cd/casper/filesystem.manifest
 sudo chroot filesystem dpkg-query -W --showformat='${Package} ${Version}\n' > extract-cd/casper/filesystem.manifest
 sudo cp extract-cd/casper/filesystem.manifest extract-cd/casper/filesystem.manifest-desktop
 sudo sed -i '/ubiquity/d' extract-cd/casper/filesystem.manifest-desktop
 sudo sed -i '/casper/d' extract-cd/casper/filesystem.manifest-desktop
 
+printf "\e[01;32m\nCompressing Filesystem\n\e[00m"
 sudo rm extract-cd/casper/filesystem.squashfs
 sudo mksquashfs filesystem extract-cd/casper/filesystem.squashfs
 
+printf "\e[01;32m\nCreating Files for ISO\n\e[00m"
 printf $(sudo du -sx --block-size=1 filesystem | cut -f1) > extract-cd/casper/filesystem.size
 
 cat > extract-cd/README.diskdefines << EOF
@@ -76,6 +82,9 @@ cd extract-cd
 sudo rm md5sum.txt
 find -type f -print0 | sudo xargs -0 md5sum | grep -v isolinux/boot.cat | sudo tee md5sum.txt
 
+printf "\e[01;32m\nCompressing ISO\n\e[00m"
 sudo mkisofs -D -r -V "$os_name" -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o ../$os_name-$os_build_version-$os_processor_type.iso .
 
+printf "\e[01;32m\nCopying ISO to Web Server\n\e[00m"
 cp ../$os_name-$os_build_version-$os_processor_type.iso /var/www/
+printf "\e[01;32m\nComplete\n\e[00m"
